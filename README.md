@@ -41,6 +41,8 @@ The client uses python2 because _reasons_
 -s server addresses (direct connection, frp proxy or domain fronted host), you can add as many as you wish (or use -t to use a textfile with newline separated server addresses)
 -f fernet symmetric key as specified on the server component.
 
+Optionally, you can compile the client for windows using pyinstaller
+wine pyinstaller.exe --onefile --noconsole c2c_client.py
 
 2)Generate your meterpreter, empire or other trojan pointing to localhost and the port specified on the -p argument (in this case 2233)
 
