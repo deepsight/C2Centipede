@@ -13,6 +13,7 @@ Additionally there is a GUI for the operator.
 ## Setup
 git clone https://github.com/deepsight/C2Centipede
 cd C2Centipede
+#install required libraries, TODO make requirements.txt
 git clone https://github.com/fatedier/frp
 
 
@@ -35,6 +36,7 @@ You can use any reverse HTTP payload, not just python.
 
 4)Set your RFP proxies and/or CDNs.
 
+5)To tests FRP servers, add them to valid_frp_tcp_clean_unique.txt
 
 ### On the victim machine
 The client uses python2 because _reasons_
